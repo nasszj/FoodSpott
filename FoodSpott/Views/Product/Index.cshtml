@@ -1,0 +1,25 @@
+﻿@model List<FoodSpott.Models.Product>
+
+<h2>Product Overview</h2>
+
+<a asp-action="Create">Add New Product</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Price</td>
+                <td>@product.Description</td>
+            </tr>
+        }
+    </tbody>
+</table>
