@@ -1,6 +1,5 @@
-﻿namespace FoodSpott.Repositories;
-
-using FoodSpott.Models;
+﻿namespace DAL.Repositories;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Data.SqlClient;
 
 public class ProductRepository
@@ -12,9 +11,9 @@ public class ProductRepository
         _connectionString = config.GetConnectionString("DefaultConnection");
     }
 
-    public List<Product> GetAllProducts()
+    public List<ProductDTO> GetAllProducts()
     {
-        List<Product> products = new List<Product>();
+        List<ProductDTO> products = new List<ProductDTO>();
 
         using SqlConnection connection = new SqlConnection(_connectionString);
         connection.Open();
@@ -26,7 +25,7 @@ public class ProductRepository
 
         while (reader.Read())
         {
-            Product product = new Product
+            ProductDTO product = new ProductDTO
             {
                 ProductID = Convert.ToInt32(reader["ProductID"]),
                 Name = reader["Name"].ToString(),
@@ -40,9 +39,9 @@ public class ProductRepository
         return products;
     }
 
-    public Product GetProductById(int id)
+    public ProductDTO GetProductById(int id)
     {
-        Product product = null;
+        ProductDTO product = null;
         using SqlConnection connection = new SqlConnection(_connectionString);
         connection.Open();
         string query = "SELECT ProductID, Name, Price, Description FROM Product WHERE ProductID = @id";
@@ -51,7 +50,7 @@ public class ProductRepository
         using SqlDataReader reader = command.ExecuteReader();
         if (reader.Read())
         {
-            product = new Product
+            product = new ProductDTO
             {
                 ProductID = Convert.ToInt32(reader["ProductID"]),
                 Name = reader["Name"].ToString(),
@@ -62,7 +61,7 @@ public class ProductRepository
         return product;
     }
 
-    public void AddProduct(Product product)
+    public void AddProduct(ProductDTO product)
     {
         using SqlConnection connection = new SqlConnection(_connectionString);
         connection.Open();
@@ -75,5 +74,10 @@ public class ProductRepository
         command.Parameters.AddWithValue("@Description", product.Description ?? (object)DBNull.Value);
 
         command.ExecuteNonQuery();
+    }
+
+    public void AddProduct(global::ServiceLibrary.Models.Product product)
+    {
+        throw new NotImplementedException();
     }
 }

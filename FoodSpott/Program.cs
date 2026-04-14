@@ -1,9 +1,8 @@
-using FoodSpott.Repositories;
+using DAL.Repositories;
+using ServiceLibrary.Services;
 
-var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<ProductRepository>();
+builder.Services.AddScoped<ProductService>();
 
 var app = builder.Build();
 

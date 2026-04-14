@@ -1,4 +1,4 @@
-using FoodSpott.Models;
+using ServiceLibrary.Models;
 using FoodSpott.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;

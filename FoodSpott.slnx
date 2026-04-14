@@ -1,3 +1,5 @@
 <Solution>
+  <Project Path="DAL/DAL.csproj" Id="d993c4f3-6c71-4964-88a4-6029ed926f90" />
   <Project Path="FoodSpott/FoodSpott.csproj" />
+  <Project Path="ServiceLibrary/ServiceLibrary.csproj" Id="81608ea6-9e0a-45f8-9a96-b87b05e60a74" />
 </Solution>

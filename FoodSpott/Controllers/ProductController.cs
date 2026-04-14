@@ -1,31 +1,33 @@
-﻿using FoodSpott.Models;
-using FoodSpott.Repositories;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using ServiceLibrary.Models;
+using ServiceLibrary.Services;
 
 namespace FoodSpott.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly ProductRepository _productRepository;
+        private readonly ProductService _productService;
 
-        public ProductController(ProductRepository productRepository)
+        public ProductController(ProductService productService)
         {
-            _productRepository = productRepository;
+            _productService = productService;
         }
 
         public IActionResult Index()
         {
-            List<Product> products = _productRepository.GetAllProducts();
+            List<Product> products = _productService.GetAllProducts();
             return View(products);
         }
 
         public IActionResult Details(int id)
         {
-            Product product = _productRepository.GetProductById(id);
+            Product product = _productService.GetProductById(id);
+
             if (product == null)
             {
                 return NotFound();
             }
+
             return View(product);
         }
 
@@ -43,7 +45,7 @@ namespace FoodSpott.Controllers
                 return View(product);
             }
 
-            _productRepository.AddProduct(product);
+            _productService.AddProduct(product);
             return RedirectToAction("Index");
         }
     }
