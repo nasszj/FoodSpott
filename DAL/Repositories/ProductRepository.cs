@@ -75,9 +75,4 @@ public class ProductRepository
 
         command.ExecuteNonQuery();
     }
-
-    public void AddProduct(global::ServiceLibrary.Models.Product product)
-    {
-        throw new NotImplementedException();
-    }
 }

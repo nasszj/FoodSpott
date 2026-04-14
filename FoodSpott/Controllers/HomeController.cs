@@ -1,19 +1,11 @@
-using ServiceLibrary.Models;
-using FoodSpott.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using FoodSpott.Models;
 
 namespace FoodSpott.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ProductRepository _repo;
-
-        public HomeController(ProductRepository repo)
-        {
-            _repo = repo;
-        }
-
         public IActionResult Index()
         {
             return View();

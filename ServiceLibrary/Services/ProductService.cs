@@ -1,5 +1,7 @@
-﻿using DAL.Repositories;
+﻿using DAL;
+using DAL.Repositories;
 using ServiceLibrary.Models;
+using ServiceLibrary.Models.Mappers;
 
 namespace ServiceLibrary.Services
 {
@@ -15,25 +17,24 @@ namespace ServiceLibrary.Services
         public List<Product> GetAllProducts()
         {
             // Convert ProductDTO to Product
-            return _productRepository.GetAllProducts();
             List<Product> products = new List<Product>();
-            foreach (var productDTO in _productRepository.GetAllProducts()) ;
+            foreach (ProductDTO productDTO in _productRepository.GetAllProducts()) 
             {
-                Product product = new Product();
-                {
-                    ProductID = dto
-                }
+                products.Add(new Product(productDTO.ProductID,productDTO.Name,productDTO.Price,productDTO.Description));
             }
+            return products;
         }
+
 
         public Product GetProductById(int id)
         {
-            return _productRepository.GetProductById(id);
+            return ProductMapper.ProductModelFromDto(_productRepository.GetProductById(id));
         }
 
         public void AddProduct(Product product)
         {
-            _productRepository.AddProduct(product);
+            ProductDTO dto = ProductMapper.ProductDTOFromModel(product);
+            _productRepository.AddProduct(dto);
         }
     }
 }
