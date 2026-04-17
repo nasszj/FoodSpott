@@ -36,5 +36,11 @@ namespace ServiceLibrary.Services
             ProductDTO dto = ProductMapper.ProductDTOFromModel(product);
             _productRepository.AddProduct(dto);
         }
+
+        public void UpdateProduct(Product product)
+        {
+            ProductDTO dto = ProductMapper.ProductDTOFromModel(product);
+            _productRepository.UpdateProduct(dto);
+        }
     }
 }

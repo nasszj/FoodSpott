@@ -9,6 +9,11 @@ namespace ServiceLibrary.Models;
     public decimal Price { get; set; }
     public string Description { get; set; }
 
+    public Product()
+    {
+        
+    }
+
     public Product(int productID, string name, decimal price, string description)
     {
         ProductID = productID;

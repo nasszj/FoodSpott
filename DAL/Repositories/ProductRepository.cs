@@ -75,4 +75,20 @@ public class ProductRepository
 
         command.ExecuteNonQuery();
     }
+
+    public void UpdateProduct(ProductDTO product)
+    {
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        connection.Open();
+
+        string query = "UPDATE Product SET Name = @Name, Price = @Price, Description = @Description WHERE ProductID = @ProductID";
+
+        using SqlCommand command = new SqlCommand(query, connection);
+        command.Parameters.AddWithValue("@ProductID", product.ProductID);
+        command.Parameters.AddWithValue("@Name", product.Name);
+        command.Parameters.AddWithValue("@Price", product.Price);
+        command.Parameters.AddWithValue("@Description", product.Description ?? (object)DBNull.Value);
+
+        command.ExecuteNonQuery();
+    }
 }

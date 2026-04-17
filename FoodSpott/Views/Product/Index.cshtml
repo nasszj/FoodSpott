@@ -1,25 +1,37 @@
 ﻿@model List<ServiceLibrary.Models.Product>
+@if (TempData["SuccessMessage"] != null)
+{
+    <div id="successAlert" class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
 
 <h2>Product Overview</h2>
 
 <a asp-action="Create">Add New Product</a>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Description</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var product in Model)
-        {
-            <tr>
-                <td>@product.Name</td>
-                <td>@product.Price</td>
-                <td>@product.Description</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="product-list">
+    @foreach (var product in Model)
+    {
+        <div class="product-card">
+            <div class="product-info">
+                <h4>@product.Name</h4>
+                <p class="price">€ @product.Price</p>
+                <p>@product.Description</p>
+
+                <a asp-action="Edit" asp-route-id="@product.ProductID">Edit</a>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        setTimeout(function () {
+            var alert = document.getElementById("successAlert");
+            if (alert) {
+                alert.style.display = "none";
+            }
+        }, 3000); // 3000 ms = 3 seconden
+    </script>
+}
