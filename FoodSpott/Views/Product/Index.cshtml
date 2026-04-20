@@ -6,9 +6,25 @@
     </div>
 }
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <div id="errorAlert" class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
 <h2>Product Overview</h2>
 
 <a asp-action="Create">Add New Product</a>
+
+<div class="mb-3 mt-3">
+    <a asp-action="Index" asp-route-category="" class="btn btn-outline-dark">All</a>
+    <a asp-action="Index" asp-route-category="Pizza" class="btn btn-outline-dark">Pizza</a>
+    <a asp-action="Index" asp-route-category="Burgers" class="btn btn-outline-dark">Burgers</a>
+    <a asp-action="Index" asp-route-category="Fries" class="btn btn-outline-dark">Fries</a>
+    <a asp-action="Index" asp-route-category="Drinks" class="btn btn-outline-dark">Drinks</a>
+    <a asp-action="Index" asp-route-category="Snacks" class="btn btn-outline-dark">Snacks</a>
+</div>
 
 <div class="product-list">
     @foreach (var product in Model)
@@ -20,6 +36,9 @@
                 <p>@product.Description</p>
 
                 <a asp-action="Edit" asp-route-id="@product.ProductID">Edit</a>
+                <a asp-action="Delete" asp-route-id="@product.ProductID" style="color: red; font-size: 20px; float:right;">
+                    <i class="bi bi-trash"></i>
+                </a>
             </div>
         </div>
     }

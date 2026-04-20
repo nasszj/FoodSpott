@@ -1,0 +1,25 @@
+﻿@model ServiceLibrary.Models.Product
+
+<h2>Delete Product</h2>
+
+<div class="alert alert-warning">
+    Are you sure you want to delete this product?
+</div>
+
+<div class="mb-3">
+    <strong>Name:</strong> @Model.Name
+</div>
+
+<div class="mb-3">
+    <strong>Price:</strong> € @Model.Price
+</div>
+
+<div class="mb-3">
+    <strong>Description:</strong> @Model.Description
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" name="id" value="@Model.ProductID" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

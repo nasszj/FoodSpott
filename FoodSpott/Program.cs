@@ -6,9 +6,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddAuthorization();
 
-builder.Services.AddScoped<ProductRepository>(); //AddScoped,regel dit automatisch voor mij per request
-builder.Services.AddScoped<ProductService>();
-
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DAL.Repositories;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using ServiceLibrary.Models;
 using ServiceLibrary.Services;
 
@@ -8,14 +10,15 @@ namespace FoodSpott.Controllers
     {
         private readonly ProductService _productService;
 
-        public ProductController(ProductService productService)
+        public ProductController(IConfiguration configuration)
         {
-            _productService = productService;
+            _productService = new ProductService(new ProductRepository(configuration));
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string category)
         {
-            List<Product> products = _productService.GetAllProducts();
+            List<Product> products = _productService.GetAllProducts(category);
+            ViewBag.CurrentCategory = category;
             return View(products);
         }
 
@@ -74,7 +77,7 @@ namespace FoodSpott.Controllers
             try
             {
                 _productService.GetProductById(product.ProductID);
-                TempData["ErrorMessage"] = "Product succesfully updated.";
+                TempData["SuccessMessage"] = "Product succesfully updated.";
                 return RedirectToAction("Index");
             }
 
@@ -83,6 +86,45 @@ namespace FoodSpott.Controllers
                 TempData["ErrorMessage"] = "Updating the product failed.";
                 return View(product);
             }
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        { 
+            Product product = _productService.GetProductById(id);
+
+            if (product == null)
+            { 
+                TempData["ErrorMessage"] = "Product not found.";
+                return RedirectToAction("Index");
+            }
+
+            return View(product);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            try
+            {
+                bool deleted = _productService.DeleteProduct(id);
+
+                if (deleted)
+                {
+                    TempData["SuccessMessage"] = "Product successfully deleted.";
+                }
+
+                if (!deleted)
+                {
+                    TempData["ErrorMessage"] = "Deleting the product failed.";
+                }
+            }
+            catch
+            {
+                TempData["ErrorMessage"] = "Deleting the product failed";
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DAL;
+using Interfaces;
 using ServiceLibrary.Models;
 using System;
 using System.Collections.Generic;
@@ -14,18 +15,20 @@ namespace ServiceLibrary.Models.Mappers
                 dto.ProductID,
                 dto.Name,
                 dto.Price,
-                dto.Description
+                dto.Description,
+                dto.Category
             );
         }
 
         static public ProductDTO ProductDTOFromModel(Product product)
         {
-            return new DAL.ProductDTO
+            return new ProductDTO
             {
                 ProductID = product.ProductID,
                 Name = product.Name,
                 Price = product.Price,
-                Description = product.Description
+                Description = product.Description,
+                Category = product.Category,
             };
         }
     }

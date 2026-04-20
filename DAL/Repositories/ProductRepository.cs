@@ -1,8 +1,10 @@
 ﻿namespace DAL.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Data.SqlClient;
+using Interfaces.Interface;
+using Interfaces;
 
-public class ProductRepository
+public class ProductRepository : IProductRepository
 {
     private readonly string _connectionString;
 
@@ -11,16 +13,27 @@ public class ProductRepository
         _connectionString = config.GetConnectionString("DefaultConnection");
     }
 
-    public List<ProductDTO> GetAllProducts()
+    public List<ProductDTO> GetAllProducts(string category = "")
     {
         List<ProductDTO> products = new List<ProductDTO>();
 
         using SqlConnection connection = new SqlConnection(_connectionString);
         connection.Open();
 
-        string query = "SELECT ProductID, Name, Price, Description FROM Product";
+        string query = "SELECT ProductID, Name, Price, Description, Category FROM Product";
+
+        if (!string.IsNullOrEmpty(category))
+        {
+            query += " WHERE Category = @Category";
+        }
 
         using SqlCommand command = new SqlCommand(query, connection);
+
+        if (!string.IsNullOrEmpty(category))
+        {
+            command.Parameters.AddWithValue("@Category", category);
+        }
+
         using SqlDataReader reader = command.ExecuteReader();
 
         while (reader.Read())
@@ -31,6 +44,7 @@ public class ProductRepository
                 Name = reader["Name"].ToString(),
                 Price = Convert.ToDecimal(reader["Price"]),
                 Description = reader["Description"].ToString(),
+                Category = reader["Category"].ToString(),
             };
 
             products.Add(product);
@@ -91,4 +105,22 @@ public class ProductRepository
 
         command.ExecuteNonQuery();
     }
+
+    public bool DeleteProduct(int id)
+    {
+        using SqlConnection connection = new SqlConnection(_connectionString);
+        connection.Open();
+
+        string query = "DELETE FROM Product WHERE ProductID = @ProductID";
+
+        using SqlCommand command = new SqlCommand(query, connection);
+        command.Parameters.AddWithValue("@ProductID", id);
+
+        int rowsAffected = command.ExecuteNonQuery();
+
+        return rowsAffected > 0;
+    }
+
+
+  
 }

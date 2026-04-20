@@ -1,5 +1,6 @@
 ﻿using DAL;
-using DAL.Repositories;
+using Interfaces;
+using Interfaces.Interface;
 using ServiceLibrary.Models;
 using ServiceLibrary.Models.Mappers;
 
@@ -7,20 +8,20 @@ namespace ServiceLibrary.Services
 {
     public class ProductService
     {
-        private readonly ProductRepository _productRepository;
+        private readonly IProductRepository _productRepository;
 
-        public ProductService(ProductRepository productRepository)
+        public ProductService(IProductRepository productRepository)
         {
             _productRepository = productRepository;
         }
 
-        public List<Product> GetAllProducts()
+        public List<Product> GetAllProducts(string category = "")
         {
             // Convert ProductDTO to Product
             List<Product> products = new List<Product>();
-            foreach (ProductDTO productDTO in _productRepository.GetAllProducts()) 
+            foreach (ProductDTO productDTO in _productRepository.GetAllProducts(category)) 
             {
-                products.Add(new Product(productDTO.ProductID,productDTO.Name,productDTO.Price,productDTO.Description));
+                products.Add(new Product(productDTO.ProductID,productDTO.Name,productDTO.Price,productDTO.Description,productDTO.Category));
             }
             return products;
         }
@@ -41,6 +42,11 @@ namespace ServiceLibrary.Services
         {
             ProductDTO dto = ProductMapper.ProductDTOFromModel(product);
             _productRepository.UpdateProduct(dto);
+        }
+
+        public bool DeleteProduct(int id)
+        {
+            return _productRepository.DeleteProduct(id);
         }
     }
 }
