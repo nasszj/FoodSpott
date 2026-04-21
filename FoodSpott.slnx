@@ -3,4 +3,5 @@
   <Project Path="FoodSpott/FoodSpott.csproj" />
   <Project Path="Interface/Interfaces.csproj" Id="caa38012-3417-42b0-824c-b1f5091158a0" />
   <Project Path="ServiceLibrary/ServiceLibrary.csproj" Id="81608ea6-9e0a-45f8-9a96-b87b05e60a74" />
+  <Project Path="UnitTest/UnitTest.csproj" Id="a86c539f-a2bc-4316-bc54-c1d9766b2df8" />
 </Solution>
