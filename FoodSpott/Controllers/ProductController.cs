@@ -1,4 +1,5 @@
 ﻿using DAL.Repositories;
+using FoodSpott.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using ServiceLibrary.Models;
@@ -7,12 +8,15 @@ using ServiceLibrary.Services;
 namespace FoodSpott.Controllers
 {
     public class ProductController : Controller
+
     {
         private readonly ProductService _productService;
+        private readonly CategoryService _categoryService;
 
         public ProductController(IConfiguration configuration)
         {
             _productService = new ProductService(new ProductRepository(configuration));
+            _categoryService = new CategoryService(new CategoryRepository(configuration));
         }
 
         public IActionResult Index(string category)
@@ -37,19 +41,36 @@ namespace FoodSpott.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            ProductViewModel vm = new ProductViewModel
+            {
+                Product = new Product(0, "", 0, "", 0),
+                Categories = _categoryService.GetAllCategories()
+            };
+
+            return View(vm);
         }
 
         [HttpPost]
-        public IActionResult Create(Product product)
+        public IActionResult Create(ProductViewModel vm)
         {
             if (!ModelState.IsValid)
             {
-                return View(product);
+                vm.Categories = _categoryService.GetAllCategories();
+                return View(vm);
             }
 
-            _productService.AddProduct(product);
-            return RedirectToAction("Index");
+            try
+            {
+                _productService.AddProduct(vm.Product);
+                TempData["SuccessMessage"] = "Product successfully added.";
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                TempData["ErrorMessage"] = "Adding the product failed.";
+                vm.Categories = _categoryService.GetAllCategories();
+                return View(vm);
+            }
         }
 
         [HttpGet]
@@ -62,29 +83,36 @@ namespace FoodSpott.Controllers
                 return NotFound();
             }
 
-            return View(product);
+            ProductViewModel vm = new ProductViewModel
+            {
+                Product = product,
+                Categories = _categoryService.GetAllCategories()
+            };
+
+            return View(vm);
         }
 
         [HttpPost]
-        public IActionResult Edit(Product product)
-        { 
-            if (string.IsNullOrWhiteSpace(product.Name) || product.Price <= 0)
+        public IActionResult Edit(ProductViewModel vm)
+        {
+            if (string.IsNullOrWhiteSpace(vm.Product.Name) || vm.Product.Price <= 0)
             {
                 TempData["ErrorMessage"] = "Name and price are required.";
-                    return View(product);
+                vm.Categories = _categoryService.GetAllCategories();
+                return View(vm);
             }
 
             try
             {
-                _productService.GetProductById(product.ProductID);
-                TempData["SuccessMessage"] = "Product succesfully updated.";
+                _productService.UpdateProduct(vm.Product);
+                TempData["SuccessMessage"] = "Product successfully updated.";
                 return RedirectToAction("Index");
             }
-
             catch
             {
                 TempData["ErrorMessage"] = "Updating the product failed.";
-                return View(product);
+                vm.Categories = _categoryService.GetAllCategories();
+                return View(vm);
             }
         }
 
@@ -113,15 +141,14 @@ namespace FoodSpott.Controllers
                 {
                     TempData["SuccessMessage"] = "Product successfully deleted.";
                 }
-
-                if (!deleted)
+                else
                 {
                     TempData["ErrorMessage"] = "Deleting the product failed.";
                 }
             }
             catch
             {
-                TempData["ErrorMessage"] = "Deleting the product failed";
+                TempData["ErrorMessage"] = "Deleting the product failed.";
             }
 
             return RedirectToAction("Index");

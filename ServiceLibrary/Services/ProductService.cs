@@ -1,6 +1,5 @@
 ﻿using DAL;
 using Interfaces;
-using Interfaces.Interface;
 using ServiceLibrary.Models;
 using ServiceLibrary.Models.Mappers;
 
@@ -21,7 +20,7 @@ namespace ServiceLibrary.Services
             List<Product> products = new List<Product>();
             foreach (ProductDTO productDTO in _productRepository.GetAllProducts(category)) 
             {
-                products.Add(new Product(productDTO.ProductID,productDTO.Name,productDTO.Price,productDTO.Description,productDTO.Category));
+                products.Add(ProductMapper.ProductModelFromDto(productDTO));
             }
             return products;
         }

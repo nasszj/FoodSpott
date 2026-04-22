@@ -1,7 +1,6 @@
 ﻿namespace DAL.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Data.SqlClient;
-using Interfaces.Interface;
 using Interfaces;
 
 public class ProductRepository : IProductRepository
@@ -20,11 +19,14 @@ public class ProductRepository : IProductRepository
         using SqlConnection connection = new SqlConnection(_connectionString);
         connection.Open();
 
-        string query = "SELECT ProductID, Name, Price, Description, Category FROM Product";
+        string query = @"
+        SELECT p.ProductID, p.Name, p.Price, p.Description, p.CategoryID
+        FROM Product p
+        INNER JOIN Category c ON p.CategoryID = c.CategoryID";
 
         if (!string.IsNullOrEmpty(category))
         {
-            query += " WHERE Category = @Category";
+            query += " WHERE c.Name = @Category";
         }
 
         using SqlCommand command = new SqlCommand(query, connection);
@@ -44,7 +46,7 @@ public class ProductRepository : IProductRepository
                 Name = reader["Name"].ToString(),
                 Price = Convert.ToDecimal(reader["Price"]),
                 Description = reader["Description"].ToString(),
-                Category = reader["Category"].ToString(),
+                CategoryID = Convert.ToInt32(reader["CategoryID"]),
             };
 
             products.Add(product);
@@ -58,7 +60,7 @@ public class ProductRepository : IProductRepository
         ProductDTO product = null;
         using SqlConnection connection = new SqlConnection(_connectionString);
         connection.Open();
-        string query = "SELECT ProductID, Name, Price, Description FROM Product WHERE ProductID = @id";
+        string query = "SELECT ProductID, Name, Price, Description, CategoryID FROM Product WHERE ProductID = @id";
         using SqlCommand command = new SqlCommand(query, connection);
         command.Parameters.AddWithValue("@id", id);
         using SqlDataReader reader = command.ExecuteReader();
@@ -70,6 +72,7 @@ public class ProductRepository : IProductRepository
                 Name = reader["Name"].ToString(),
                 Price = Convert.ToDecimal(reader["Price"]),
                 Description = reader["Description"].ToString(),
+                CategoryID = Convert.ToInt32(reader["CategoryID"])
             };
         }
         return product;
@@ -80,12 +83,13 @@ public class ProductRepository : IProductRepository
         using SqlConnection connection = new SqlConnection(_connectionString);
         connection.Open();
 
-        string query = "INSERT INTO product (Name, Price, Description) VALUES (@Name, @Price, @Description)";
+        string query = "INSERT INTO Product (Name, Price, Description, CategoryID) VALUES (@Name, @Price, @Description, @CategoryID)";
 
         using SqlCommand command = new SqlCommand(query, connection);
         command.Parameters.AddWithValue("@Name", product.Name);
         command.Parameters.AddWithValue("@Price", product.Price);
         command.Parameters.AddWithValue("@Description", product.Description ?? (object)DBNull.Value);
+        command.Parameters.AddWithValue("@CategoryID", product.CategoryID);
 
         command.ExecuteNonQuery();
     }
@@ -95,13 +99,14 @@ public class ProductRepository : IProductRepository
         using SqlConnection connection = new SqlConnection(_connectionString);
         connection.Open();
 
-        string query = "UPDATE Product SET Name = @Name, Price = @Price, Description = @Description WHERE ProductID = @ProductID";
+        string query = "UPDATE Product SET Name = @Name, Price = @Price, Description = @Description, CategoryID = @CategoryID WHERE ProductID = @ProductID";
 
         using SqlCommand command = new SqlCommand(query, connection);
         command.Parameters.AddWithValue("@ProductID", product.ProductID);
         command.Parameters.AddWithValue("@Name", product.Name);
         command.Parameters.AddWithValue("@Price", product.Price);
         command.Parameters.AddWithValue("@Description", product.Description ?? (object)DBNull.Value);
+        command.Parameters.AddWithValue("@CategoryID", product.CategoryID);
 
         command.ExecuteNonQuery();
     }

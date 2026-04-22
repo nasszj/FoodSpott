@@ -16,7 +16,7 @@ namespace ServiceLibrary.Models.Mappers
                 dto.Name,
                 dto.Price,
                 dto.Description,
-                dto.Category
+                dto.CategoryID
             );
         }
 
@@ -28,7 +28,7 @@ namespace ServiceLibrary.Models.Mappers
                 Name = product.Name,
                 Price = product.Price,
                 Description = product.Description,
-                Category = product.Category,
+                CategoryID = product.CategoryID,
             };
         }
     }
