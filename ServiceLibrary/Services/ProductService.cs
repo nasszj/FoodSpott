@@ -28,7 +28,14 @@ namespace ServiceLibrary.Services
 
         public Product GetProductById(int id)
         {
-            return ProductMapper.ProductModelFromDto(_productRepository.GetProductById(id));
+            var dto = _productRepository.GetProductById(id);
+
+            if (dto == null)
+            {
+                return null;
+            }
+
+            return ProductMapper.ProductModelFromDto(dto);
         }
 
         public void AddProduct(Product product)
