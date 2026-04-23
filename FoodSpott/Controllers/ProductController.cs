@@ -95,6 +95,13 @@ namespace FoodSpott.Controllers
         [HttpPost]
         public IActionResult Edit(ProductViewModel vm)
         {
+            if (vm.Product == null)
+            {
+                TempData["ErrorMessage"] = "Product data is missing.";
+                vm.Categories = _categoryService.GetAllCategories();
+                return View(vm);
+            }
+
             if (string.IsNullOrWhiteSpace(vm.Product.Name) || vm.Product.Price <= 0)
             {
                 TempData["ErrorMessage"] = "Name and price are required.";
