@@ -39,6 +39,12 @@
                 <a asp-action="Delete" asp-route-id="@product.ProductID" style="color: red; font-size: 20px; float:right;">
                     <i class="bi bi-trash"></i>
                 </a>
+                <a asp-controller="Cart"
+                       asp-action="AddProduct"
+                       asp-route-productID="@product.ProductID"
+                       class="btn btn-sm btn-success">
+                    +
+                </a>
             </div>
         </div>
     }

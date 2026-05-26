@@ -32,7 +32,7 @@ namespace FoodSpott.Controllers
 
             if (product == null)
             {
-                return NotFound();
+                return NotFound(); //sprint 3 netjes maken wat gebruiker iet
             }
 
             return View(product);
@@ -43,7 +43,11 @@ namespace FoodSpott.Controllers
         {
             ProductViewModel vm = new ProductViewModel
             {
-                Product = new Product(0, "", 0, "", 0),
+                ProductID = 0,
+                Name = "",
+                Price = 0,
+                Description = "",
+                CategoryID = 0,
                 Categories = _categoryService.GetAllCategories()
             };
 
@@ -61,7 +65,16 @@ namespace FoodSpott.Controllers
 
             try
             {
-                _productService.AddProduct(vm.Product);
+                Product product = new Product(
+                    vm.ProductID,
+                    vm.Name,
+                    vm.Price,
+                    vm.Description,
+                    vm.CategoryID
+                );
+
+                _productService.AddProduct(product);
+
                 TempData["SuccessMessage"] = "Product successfully added.";
                 return RedirectToAction("Index");
             }
@@ -85,7 +98,11 @@ namespace FoodSpott.Controllers
 
             ProductViewModel vm = new ProductViewModel
             {
-                Product = product,
+                ProductID = product.ProductID,
+                Name = product.Name,
+                Price = product.Price,
+                Description = product.Description,
+                CategoryID = product.CategoryID,
                 Categories = _categoryService.GetAllCategories()
             };
 
@@ -95,14 +112,14 @@ namespace FoodSpott.Controllers
         [HttpPost]
         public IActionResult Edit(ProductViewModel vm)
         {
-            if (vm.Product == null)
+            if (vm == null)
             {
                 TempData["ErrorMessage"] = "Product data is missing.";
                 vm.Categories = _categoryService.GetAllCategories();
                 return View(vm);
             }
 
-            if (string.IsNullOrWhiteSpace(vm.Product.Name) || vm.Product.Price <= 0)
+            if (string.IsNullOrWhiteSpace(vm.Name) || vm.Price <= 0)
             {
                 TempData["ErrorMessage"] = "Name and price are required.";
                 vm.Categories = _categoryService.GetAllCategories();
@@ -111,7 +128,16 @@ namespace FoodSpott.Controllers
 
             try
             {
-                _productService.UpdateProduct(vm.Product);
+                Product product = new Product(
+                    vm.ProductID,
+                    vm.Name,
+                    vm.Price,
+                    vm.Description,
+                    vm.CategoryID
+                );
+
+                _productService.UpdateProduct(product);
+
                 TempData["SuccessMessage"] = "Product successfully updated.";
                 return RedirectToAction("Index");
             }
