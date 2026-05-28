@@ -21,37 +21,65 @@ namespace FoodSpott.Controllers
 
         public IActionResult Index(string category)
         {
-            List<Product> products = _productService.GetAllProducts(category);
-            ViewBag.CurrentCategory = category;
-            return View(products);
+            try
+            {
+                List<Product> products = _productService.GetAllProducts(category);
+                ViewBag.CurrentCategory = category;
+                return View(products);
+            }
+            catch
+            {
+                TempData["ErrorMessage"] = "Something went wrong. Please try again later.";
+                return View(new List<Product>());
+            }
         }
+
 
         public IActionResult Details(int id)
         {
-            Product product = _productService.GetProductById(id);
+            try
+            { 
+                Product product = _productService.GetProductById(id);
 
-            if (product == null)
-            {
-                return NotFound(); //sprint 3 netjes maken wat gebruiker iet
+                if (product == null)
+                {
+                    return NotFound(); //sprint 3 netjes maken wat gebruiker iet
+                }
+
+                return View(product);
             }
 
-            return View(product);
+            catch
+            {
+                TempData["ErrorMessage"] = "Something went wrong. Please try again later.";
+                return RedirectToAction("Index");
+            }
         }
+
 
         [HttpGet]
         public IActionResult Create()
         {
-            ProductViewModel vm = new ProductViewModel
-            {
-                ProductID = 0,
-                Name = "",
-                Price = 0,
-                Description = "",
-                CategoryID = 0,
-                Categories = _categoryService.GetAllCategories()
-            };
+            try
+            { 
+                ProductViewModel vm = new ProductViewModel
+                {
+                    ProductID = 0,
+                    Name = "",
+                    Price = 0,
+                    Description = "",
+                    CategoryID = 0,
+                    Categories = _categoryService.GetAllCategories()
+                };
 
-            return View(vm);
+                return View(vm);
+            }
+
+            catch
+            {
+                TempData["ErrorMessage"] = "Something went wrong. Please try again later.";
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]
@@ -89,24 +117,33 @@ namespace FoodSpott.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            Product product = _productService.GetProductById(id);
+            try
+            { 
+                Product product = _productService.GetProductById(id);
 
-            if (product == null)
-            {
-                return NotFound();
+                if (product == null)
+                {
+                    return NotFound();
+                }
+
+                ProductViewModel vm = new ProductViewModel
+                {
+                    ProductID = product.ProductID,
+                    Name = product.Name,
+                    Price = product.Price,
+                    Description = product.Description,
+                    CategoryID = product.CategoryID,
+                    Categories = _categoryService.GetAllCategories()
+                };
+
+                return View(vm);
             }
 
-            ProductViewModel vm = new ProductViewModel
+            catch
             {
-                ProductID = product.ProductID,
-                Name = product.Name,
-                Price = product.Price,
-                Description = product.Description,
-                CategoryID = product.CategoryID,
-                Categories = _categoryService.GetAllCategories()
-            };
-
-            return View(vm);
+                TempData["ErrorMessage"] = "Something went wrong. Please try again later.";
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]
@@ -152,15 +189,24 @@ namespace FoodSpott.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         { 
-            Product product = _productService.GetProductById(id);
-
-            if (product == null)
+            try
             { 
-                TempData["ErrorMessage"] = "Product not found.";
-                return RedirectToAction("Index");
+                Product product = _productService.GetProductById(id);
+
+                if (product == null)
+                { 
+                    TempData["ErrorMessage"] = "Product not found.";
+                    return RedirectToAction("Index");
+                }
+
+                return View(product);
             }
 
-            return View(product);
+            catch
+            {
+                TempData["ErrorMessage"] = "Something went wrong. Please try again later.";
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]

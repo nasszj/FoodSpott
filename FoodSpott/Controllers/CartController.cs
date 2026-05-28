@@ -16,21 +16,37 @@ namespace FoodSpott.Controllers
 
         public IActionResult Index()
         {
-            Cart cart = _cartService.GetCart();
+            try
+            { 
+                Cart cart = _cartService.GetCart();
 
-            if (cart == null)
+                if (cart == null)
+                {
+                    cart = new Cart
+                    {
+                        CartID = 0,
+                        UserID = null,
+                        TotalPrice = 0,
+                        Products = new List<CartProduct>()
+                    };
+                }
+
+                return View(cart);
+            }
+            catch
             {
-                cart = new Cart
+                TempData["ErrorMessage"] = "Something went wrong. Please try again later.";
+
+                return View(new Cart
                 {
                     CartID = 0,
                     UserID = null,
                     TotalPrice = 0,
                     Products = new List<CartProduct>()
-                };
+                });
             }
-
-            return View(cart);
         }
+
 
         public IActionResult AddProduct(int productID)
         {

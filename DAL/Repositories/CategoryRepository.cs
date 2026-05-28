@@ -17,26 +17,34 @@ namespace DAL.Repositories
         {
             List<CategoryDTO> categories = new List<CategoryDTO>();
 
-            using SqlConnection connection = new SqlConnection(_connectionString);
-            connection.Open();
-
-            string query = "SELECT CategoryID, Name FROM Category";
-
-            using SqlCommand command = new SqlCommand(query, connection);
-            using SqlDataReader reader = command.ExecuteReader();
-
-            while (reader.Read())
+            try
             {
-                CategoryDTO category = new CategoryDTO
-                {
-                    CategoryID = Convert.ToInt32(reader["CategoryID"]),
-                    Name = reader["Name"].ToString()
-                };
+                using SqlConnection connection = new SqlConnection(_connectionString);
+                connection.Open();
 
-                categories.Add(category);
+                string query = "SELECT CategoryID, Name FROM Category";
+
+                using SqlCommand command = new SqlCommand(query, connection);
+                using SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    CategoryDTO category = new CategoryDTO
+                    {
+                        CategoryID = Convert.ToInt32(reader["CategoryID"]),
+                        Name = reader["Name"].ToString()
+                    };
+
+                    categories.Add(category);
+                }
+
+                return categories;
             }
 
-            return categories;
+            catch (SqlException)
+            {
+                throw new Exception("Something went wrong. Please try again later.");
+            }
         }
     }
 }
