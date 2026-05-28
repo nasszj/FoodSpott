@@ -34,6 +34,11 @@ namespace ServiceLibrary.Services
 
         public void UpdateQuantity(int cartProductID, int quantity)
         {
+            if (quantity < 1)
+            {
+                return;
+            }
+
             _cartRepository.UpdateQuantity(cartProductID, quantity);
         }
 

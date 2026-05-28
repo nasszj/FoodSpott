@@ -12,52 +12,142 @@ namespace UnitTest.FakeRepositories
             {
                 new ProductDTO { ProductID = 1, Name = "Cheeseburger", Price = 6.00m, Description = "Beef burger with cheese", CategoryID = 2 },
                 new ProductDTO { ProductID = 2, Name = "Fries", Price = 3.95m, Description = "French fries", CategoryID = 3 },
-                new ProductDTO { ProductID = 3, Name = "Coca Cola", Price = 2.50m, Description = "Soft drink", CategoryID = 4 }
+                new ProductDTO { ProductID = 3, Name = "Coca Cola", Price = 2.50m, Description = "Soft drink", CategoryID = 4 },
+                new ProductDTO { ProductID = 4, Name = "Pizza Margherita", Price = 8.90m, Description = "Classic pizza with tomato and mozzarella", CategoryID = 1 }
             };
 
-            return products;
-        }
-
-            public ProductDTO GetProductById(int id)
+            if (category == "Pizza")
             {
-                if (id == 1)
+                return new List<ProductDTO>
                 {
-                    return new ProductDTO 
+                    new ProductDTO
                     {
-                        ProductID = 1, 
+                        ProductID = 4,
+                        Name = "Pizza Margherita",
+                        Price = 8.90m,
+                        Description = "Classic pizza with tomato and mozzarella",
+                        CategoryID = 1
+                    }
+                };
+            }
+
+            if (category == "Burgers")
+            {
+                return new List<ProductDTO>
+                {
+                    new ProductDTO
+                    {
+                        ProductID = 1,
                         Name = "Cheeseburger",
                         Price = 6.00m,
                         Description = "Beef burger with cheese",
-                        CategoryID = 2 
-                    };
-                }
+                        CategoryID = 2
+                    }
+                };
+            }
 
-                if (id == 2)
+            if (category == "Fries")
+            {
+                return new List<ProductDTO>
                 {
-                    return new ProductDTO
-                    { 
+                    new ProductDTO
+                    {
                         ProductID = 2,
                         Name = "Fries",
                         Price = 3.95m,
                         Description = "French fries",
-                        CategoryID = 3 
-                    };
-                }
-
-                return null;
+                        CategoryID = 3
+                    }
+                };
             }
 
-            public void AddProduct(ProductDTO product)
+            if (category == "Drinks")
             {
+                return new List<ProductDTO>
+                {
+                    new ProductDTO
+                    {
+                        ProductID = 3,
+                        Name = "Coca Cola",
+                        Price = 2.50m,
+                        Description = "Soft drink",
+                        CategoryID = 4
+                    }
+                };
             }
 
-            public void UpdateProduct(ProductDTO product)
+            if (category == "Snacks")
             {
+                return new List<ProductDTO>();
             }
 
-            public bool DeleteProduct(int id)
+            return products;
+        }
+
+        public ProductDTO GetProductById(int id)
+        {
+            if (id == 1)
             {
-                return id == 1;
+                return new ProductDTO
+                {
+                    ProductID = 1,
+                    Name = "Cheeseburger",
+                    Price = 6.00m,
+                    Description = "Beef burger with cheese",
+                    CategoryID = 2
+                };
             }
+
+            if (id == 2)
+            {
+                return new ProductDTO
+                {
+                    ProductID = 2,
+                    Name = "Fries",
+                    Price = 3.95m,
+                    Description = "French fries",
+                    CategoryID = 3
+                };
+            }
+
+            if (id == 3)
+            {
+                return new ProductDTO
+                {
+                    ProductID = 3,
+                    Name = "Coca Cola",
+                    Price = 2.50m,
+                    Description = "Soft drink",
+                    CategoryID = 4
+                };
+            }
+
+            if (id == 4)
+            {
+                return new ProductDTO
+                {
+                    ProductID = 4,
+                    Name = "Pizza Margherita",
+                    Price = 8.90m,
+                    Description = "Classic pizza with tomato and mozzarella",
+                    CategoryID = 1
+                };
+            }
+
+            return null;
+        }
+
+        public void AddProduct(ProductDTO product)
+        {
+        }
+
+        public void UpdateProduct(ProductDTO product)
+        {
+        }
+
+        public bool DeleteProduct(int id)
+        {
+            return id == 1;
+        }
     }
 }

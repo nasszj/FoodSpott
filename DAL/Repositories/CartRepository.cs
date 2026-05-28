@@ -99,24 +99,32 @@ public class CartRepository : ICartRepository
 
     public void AddProduct(int productID)
     {
-        int cartID = GetOrCreateCartID();
+        try
+        { 
+            int cartID = GetOrCreateCartID();
 
-        using SqlConnection connection = new SqlConnection(_connectionString);
-        connection.Open();
+            using SqlConnection connection = new SqlConnection(_connectionString);
+            connection.Open();
 
-        string query = @"
-            INSERT INTO CartProduct (CartID, ProductID, Quantity, Subtotal)
-            SELECT @CartID, ProductID, 1, Price
-            FROM Product
-            WHERE ProductID = @ProductID";
+            string query = @"
+                INSERT INTO CartProduct (CartID, ProductID, Quantity, Subtotal)
+                SELECT @CartID, ProductID, 1, Price
+                FROM Product
+                WHERE ProductID = @ProductID";
 
-        using SqlCommand command = new SqlCommand(query, connection);
-        command.Parameters.AddWithValue("@CartID", cartID);
-        command.Parameters.AddWithValue("@ProductID", productID);
+            using SqlCommand command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@CartID", cartID);
+            command.Parameters.AddWithValue("@ProductID", productID);
 
-        command.ExecuteNonQuery();
+            command.ExecuteNonQuery();
 
-        UpdateTotalPrice(cartID);
+            UpdateTotalPrice(cartID);
+        }
+
+        catch (SqlException)
+        {
+            throw new Exception("Something went wrong. Please try again later.");
+        }
     }
 
     public void UpdateQuantity(int cartProductID, int quantity)

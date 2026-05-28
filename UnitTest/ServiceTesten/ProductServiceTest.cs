@@ -21,7 +21,7 @@ namespace UnitTest.ServiceTesten
 
             //Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(3, result.Count);
+            Assert.AreEqual(4, result.Count);
         }
 
         [TestMethod]

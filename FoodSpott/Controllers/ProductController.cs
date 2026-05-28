@@ -29,7 +29,7 @@ namespace FoodSpott.Controllers
             }
             catch
             {
-                TempData["ErrorMessage"] = "Something went wrong. Please try again later.";
+                TempData["ErrorMessage"] = "Products could not be loaded. Please try again later.";
                 return View(new List<Product>());
             }
         }
@@ -51,7 +51,7 @@ namespace FoodSpott.Controllers
 
             catch
             {
-                TempData["ErrorMessage"] = "Something went wrong. Please try again later.";
+                TempData["ErrorMessage"] = "Categories could not be loaded. Please try again later.";
                 return RedirectToAction("Index");
             }
         }
@@ -77,7 +77,7 @@ namespace FoodSpott.Controllers
 
             catch
             {
-                TempData["ErrorMessage"] = "Something went wrong. Please try again later.";
+                TempData["ErrorMessage"] = "Categories could not be loaded. Please try again later.";
                 return RedirectToAction("Index");
             }
         }
@@ -108,7 +108,7 @@ namespace FoodSpott.Controllers
             }
             catch
             {
-                TempData["ErrorMessage"] = "Adding the product failed.";
+                TempData["ErrorMessage"] = "Product could not be added. Please try again later.";
                 vm.Categories = _categoryService.GetAllCategories();
                 return View(vm);
             }
@@ -141,7 +141,7 @@ namespace FoodSpott.Controllers
 
             catch
             {
-                TempData["ErrorMessage"] = "Something went wrong. Please try again later.";
+                TempData["ErrorMessage"] = "Product data could not be loaded. Please try again later.";
                 return RedirectToAction("Index");
             }
         }
@@ -180,7 +180,7 @@ namespace FoodSpott.Controllers
             }
             catch
             {
-                TempData["ErrorMessage"] = "Updating the product failed.";
+                TempData["ErrorMessage"] = "Product could not be updated. Please try again later.";
                 vm.Categories = _categoryService.GetAllCategories();
                 return View(vm);
             }
@@ -222,7 +222,7 @@ namespace FoodSpott.Controllers
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "Deleting the product failed.";
+                    TempData["ErrorMessage"] = "Product could not be deleted. Please try again later.";
                 }
             }
             catch

@@ -35,7 +35,7 @@ namespace FoodSpott.Controllers
             }
             catch
             {
-                TempData["ErrorMessage"] = "Something went wrong. Please try again later.";
+                TempData["ErrorMessage"] = "Cart could not be loaded. Please try again later.";
 
                 return View(new Cart
                 {

@@ -19,9 +19,4 @@
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="FakeRepositoriesExceptions.cs\" />
-    <Folder Include="ServiceExceptionTests\" />
-  </ItemGroup>
-
 </Project>
