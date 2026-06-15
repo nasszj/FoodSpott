@@ -29,7 +29,6 @@ namespace ServiceLibrary.Services
         public Product GetProductById(int id)
         {
             var dto = _productRepository.GetProductById(id);
-            dto.Description = "blabla";
             if (dto == null)
             {
                 return null;
