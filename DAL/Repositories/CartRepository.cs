@@ -36,7 +36,7 @@ public class CartRepository : ICartRepository
                     UserID = reader["UserID"] == DBNull.Value ? null : Convert.ToInt32(reader["UserID"]),
                     TotalPrice = Convert.ToDecimal(reader["TotalPrice"])
                 };
-            }
+            }   
 
             if (cart != null)
             {

@@ -43,7 +43,7 @@ namespace FoodSpott.Controllers
 
                 if (product == null)
                 {
-                    return NotFound(); //sprint 3 netjes maken wat gebruiker iet
+                    return NotFound(); 
                 }
 
                 return View(product);
