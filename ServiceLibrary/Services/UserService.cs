@@ -2,6 +2,7 @@
 using Interfaces.Interface;
 using ServiceLibrary.Models;
 using ServiceLibrary.Models.Mappers;
+using BCrypt.Net;
 
 namespace ServiceLibrary.Services
 {
@@ -36,10 +37,12 @@ namespace ServiceLibrary.Services
                 return false;
             }
 
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+
             User user = new User(
                 0,
                 email,
-                password,
+                hashedPassword,
                 "User"
             );
 
