@@ -15,7 +15,10 @@
 
 <h2>Product Overview</h2>
 
-<a asp-action="Create">Add New Product</a>
+@if (Context.Session.GetString("Role") == "Admin")
+{
+    <a asp-action="Create">Add New Product</a>
+}
 
 <div class="mb-3 mt-3">
     <a asp-action="Index" asp-route-category="" class="btn btn-outline-dark">All</a>
@@ -35,10 +38,16 @@
                 <p class="price">€ @product.Price</p>
                 <p>@product.Description</p>
 
-                <a asp-action="Edit" asp-route-id="@product.ProductID">Edit</a>
-                <a asp-action="Delete" asp-route-id="@product.ProductID" style="color: red; font-size: 20px; float:right;">
-                    <i class="bi bi-trash"></i>
-                </a>
+                @if (Context.Session.GetString("Role") == "Admin")
+                {
+                    <a asp-action="Edit" asp-route-id="@product.ProductID">Edit</a>
+                }
+                @if (Context.Session.GetString("Role") == "Admin")
+                {
+                    <a asp-action="Delete" asp-route-id="@product.ProductID" style="color: red; font-size: 20px; float:right;">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                }
                 <a asp-controller="Cart"
                        asp-action="AddProduct"
                        asp-route-productID="@product.ProductID"

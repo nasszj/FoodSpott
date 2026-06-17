@@ -19,6 +19,11 @@ namespace FoodSpott.Controllers
             _categoryService = new CategoryService(new CategoryRepository(configuration));
         }
 
+        private bool IsAdmin()
+        {
+            return HttpContext.Session.GetString("Role") == "Admin";
+        }
+
         public IActionResult Index(string category)
         {
             try
@@ -60,6 +65,11 @@ namespace FoodSpott.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            if (!IsAdmin())
+            {
+                return RedirectToAction("Index");
+            }
+
             try
             { 
                 ProductViewModel vm = new ProductViewModel
@@ -85,6 +95,11 @@ namespace FoodSpott.Controllers
         [HttpPost]
         public IActionResult Create(ProductViewModel vm)
         {
+            if (!IsAdmin())
+            {
+                return RedirectToAction("Index");
+            }
+
             if (!ModelState.IsValid)
             {
                 vm.Categories = _categoryService.GetAllCategories();
@@ -117,6 +132,11 @@ namespace FoodSpott.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
+            if (!IsAdmin())
+            {
+                return RedirectToAction("Index");
+            }
+
             try
             { 
                 Product product = _productService.GetProductById(id);
@@ -149,6 +169,11 @@ namespace FoodSpott.Controllers
         [HttpPost]
         public IActionResult Edit(ProductViewModel vm)
         {
+            if (!IsAdmin())
+            {
+                return RedirectToAction("Index");
+            }
+
             if (vm == null)
             {
                 TempData["ErrorMessage"] = "Product data is missing.";
@@ -188,7 +213,12 @@ namespace FoodSpott.Controllers
 
         [HttpGet]
         public IActionResult Delete(int id)
-        { 
+        {
+            if (!IsAdmin())
+            {
+                return RedirectToAction("Index");
+            }
+
             try
             { 
                 Product product = _productService.GetProductById(id);
@@ -212,6 +242,11 @@ namespace FoodSpott.Controllers
         [HttpPost]
         public IActionResult DeleteConfirmed(int id)
         {
+            if (!IsAdmin())
+            {
+                return RedirectToAction("Index");
+            }
+
             try
             {
                 bool deleted = _productService.DeleteProduct(id);

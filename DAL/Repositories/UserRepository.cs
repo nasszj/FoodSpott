@@ -56,4 +56,39 @@ public class UserRepository : IUserRepository
             throw new Exception("Something went wrong. Please try again later.");
         }
     }
+
+    public UserDTO GetUserByEmail(string email)
+    {
+        try
+        {
+            UserDTO user = null;
+
+            using SqlConnection connection = new SqlConnection(_connectionString);
+            connection.Open();
+
+            string query = "SELECT UserID, Email, Password, Role FROM [User] WHERE Email = @Email";
+
+            using SqlCommand command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@Email", email);
+
+            using SqlDataReader reader = command.ExecuteReader();
+
+            if (reader.Read())
+            {
+                user = new UserDTO
+                {
+                    UserID = Convert.ToInt32(reader["UserID"]),
+                    Email = reader["Email"].ToString(),
+                    Password = reader["Password"].ToString(),
+                    Role = reader["Role"].ToString()
+                };
+            }
+
+            return user;
+        }
+        catch (SqlException)
+        {
+            throw new Exception("Something went wrong. Please try again later.");
+        }
+    }
 }

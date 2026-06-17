@@ -1,0 +1,28 @@
+﻿@model FoodSpott.ViewModels.LoginViewModel
+
+@{
+    var errorMessage = TempData["ErrorMessage"] as string;
+}
+
+<h2>Login</h2>
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">
+        @errorMessage
+    </div>
+}
+
+<form asp-controller="Account" asp-action="Login" method="post">
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" class="form-control" type="email" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Password" class="form-label"></label>
+        <input asp-for="Password" class="form-control" type="password" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>

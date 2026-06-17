@@ -10,5 +10,6 @@ namespace Interfaces.Interface
     {
         void Register(UserDTO user);
         bool EmailExists(string email);
+        UserDTO GetUserByEmail(string email);
     }
 }

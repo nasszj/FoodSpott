@@ -52,5 +52,29 @@ namespace ServiceLibrary.Services
 
             return true;
         }
+
+        public User Login(string email, string password)
+        {
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
+            {
+                return null;
+            }
+
+            UserDTO dto = _userRepository.GetUserByEmail(email);
+
+            if (dto == null)
+            {
+                return null;
+            }
+
+            bool passwordCorrect = BCrypt.Net.BCrypt.Verify(password, dto.Password);
+
+            if (!passwordCorrect)
+            {
+                return null;
+            }
+
+            return UserMapper.UserModelFromDto(dto);
+        }
     }
 }
