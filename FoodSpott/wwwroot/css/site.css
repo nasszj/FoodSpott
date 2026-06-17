@@ -52,3 +52,113 @@ body {
     font-weight: bold;
     margin-bottom: 10px;
 }
+
+body {
+    background-color: #F8F9FA;
+    color: #343A40;
+    margin-bottom: 60px;
+}
+
+.hero-navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+    .hero-navbar .nav-link,
+    .hero-navbar .navbar-brand {
+        color: white !important;
+        font-weight: 600;
+    }
+
+.home-hero {
+    min-height: 700px;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    background: linear-gradient( rgba(45, 106, 79, 0.55), rgba(45, 106, 79, 0.55) ), url('/images/hero-food.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    padding-left: 10%;
+}
+
+.hero-text {
+    max-width: 550px;
+    color: white;
+}
+
+.hero-label,
+.section-label {
+    color: #95D5B2;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.hero-text h1 {
+    font-size: 48px;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+.hero-text p {
+    font-size: 18px;
+    margin: 20px 0;
+}
+
+.hero-btn,
+.category-btn {
+    background-color: #95D5B2;
+    color: #2D6A4F;
+    font-weight: bold;
+    border: none;
+    padding: 12px 24px;
+}
+
+    .hero-btn:hover,
+    .category-btn:hover {
+        background-color: #2D6A4F;
+        color: white;
+    }
+
+.home-categories {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+    .home-categories h2 {
+        font-weight: 700;
+        margin-bottom: 35px;
+    }
+
+.category-grid {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-bottom: 35px;
+}
+
+.category-card {
+    background-color: white;
+    width: 150px;
+    padding: 25px;
+    border-radius: 18px;
+    border: 1px solid #DEE2E6;
+    font-size: 42px;
+    transition: 0.3s;
+}
+
+    .category-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .category-card h4 {
+        margin-top: 15px;
+        font-size: 18px;
+    }

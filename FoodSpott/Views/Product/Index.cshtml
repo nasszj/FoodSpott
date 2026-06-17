@@ -21,12 +21,35 @@
 }
 
 <div class="mb-3 mt-3">
-    <a asp-action="Index" asp-route-category="" class="btn btn-outline-dark">All</a>
-    <a asp-action="Index" asp-route-category="Pizza" class="btn btn-outline-dark">Pizza</a>
-    <a asp-action="Index" asp-route-category="Burgers" class="btn btn-outline-dark">Burgers</a>
-    <a asp-action="Index" asp-route-category="Fries" class="btn btn-outline-dark">Fries</a>
-    <a asp-action="Index" asp-route-category="Drinks" class="btn btn-outline-dark">Drinks</a>
-    <a asp-action="Index" asp-route-category="Snacks" class="btn btn-outline-dark">Snacks</a>
+    <a asp-action="Index" asp-route-category=""
+           class="btn @(string.IsNullOrEmpty(ViewBag.CurrentCategory) ? "btn-dark" : "btn-outline-dark")">
+        All
+    </a>
+
+    <a asp-action="Index" asp-route-category="Pizza"
+           class="btn @(ViewBag.CurrentCategory == "Pizza" ? "btn-dark" : "btn-outline-dark")">
+        Pizza
+    </a>
+
+    <a asp-action="Index" asp-route-category="Burgers"
+           class="btn @(ViewBag.CurrentCategory == "Burgers" ? "btn-dark" : "btn-outline-dark")">
+        Burgers
+    </a>
+
+    <a asp-action="Index" asp-route-category="Fries"
+           class="btn @(ViewBag.CurrentCategory == "Fries" ? "btn-dark" : "btn-outline-dark")">
+        Fries
+    </a>
+
+    <a asp-action="Index" asp-route-category="Drinks"
+           class="btn @(ViewBag.CurrentCategory == "Drinks" ? "btn-dark" : "btn-outline-dark")">
+        Drinks
+    </a>
+
+    <a asp-action="Index" asp-route-category="Snacks"
+           class="btn @(ViewBag.CurrentCategory == "Snacks" ? "btn-dark" : "btn-outline-dark")">
+        Snacks
+    </a>
 </div>
 
 <div class="product-list">
