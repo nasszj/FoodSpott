@@ -113,7 +113,8 @@ namespace FoodSpott.Controllers
                     vm.Name,
                     vm.Price,
                     vm.Description,
-                    vm.CategoryID
+                    vm.CategoryID,
+                    vm.ImagePath
                 );
 
                 _productService.AddProduct(product);
@@ -195,7 +196,8 @@ namespace FoodSpott.Controllers
                     vm.Name,
                     vm.Price,
                     vm.Description,
-                    vm.CategoryID
+                    vm.CategoryID,
+                    vm.ImagePath
                 );
 
                 _productService.UpdateProduct(product);

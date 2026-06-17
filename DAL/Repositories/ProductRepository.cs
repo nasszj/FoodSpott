@@ -23,7 +23,7 @@ public class ProductRepository : IProductRepository
             connection.Open();
 
             string query = @"
-            SELECT p.ProductID, p.Name, p.Price, p.Description, p.CategoryID
+            SELECT p.ProductID, p.Name, p.Price, p.Description, p.CategoryID,  p.ImagePath
             FROM Product p
             INNER JOIN Category c ON p.CategoryID = c.CategoryID";
 
@@ -50,6 +50,7 @@ public class ProductRepository : IProductRepository
                     Price = Convert.ToDecimal(reader["Price"]),
                     Description = reader["Description"].ToString(),
                     CategoryID = Convert.ToInt32(reader["CategoryID"]),
+                    ImagePath = reader["ImagePath"].ToString(),
                 };
 
                 products.Add(product);
@@ -70,7 +71,7 @@ public class ProductRepository : IProductRepository
             ProductDTO product = null;
             using SqlConnection connection = new SqlConnection(_connectionString);
             connection.Open();
-            string query = "SELECT ProductID, Name, Price, Description, CategoryID FROM Product WHERE ProductID = @id";
+            string query = "SELECT ProductID, Name, Price, Description, CategoryID, ImagePath FROM Product WHERE ProductID = @id";
             using SqlCommand command = new SqlCommand(query, connection);
             command.Parameters.AddWithValue("@id", id);
             using SqlDataReader reader = command.ExecuteReader();
@@ -82,7 +83,8 @@ public class ProductRepository : IProductRepository
                     Name = reader["Name"].ToString(),
                     Price = Convert.ToDecimal(reader["Price"]),
                     Description = reader["Description"].ToString(),
-                    CategoryID = Convert.ToInt32(reader["CategoryID"])
+                    CategoryID = Convert.ToInt32(reader["CategoryID"]),
+                    ImagePath = reader["ImagePath"].ToString()
                 };
             }
             return product;
@@ -101,13 +103,14 @@ public class ProductRepository : IProductRepository
             using SqlConnection connection = new SqlConnection(_connectionString);
             connection.Open();
 
-            string query = "INSERT INTO Product (Name, Price, Description, CategoryID) VALUES (@Name, @Price, @Description, @CategoryID)";
+            string query = "INSERT INTO Product (Name, Price, Description, CategoryID, ImagePath) VALUES (@Name, @Price, @Description, @CategoryID, @ImagePath)";
 
             using SqlCommand command = new SqlCommand(query, connection);
             command.Parameters.AddWithValue("@Name", product.Name);
             command.Parameters.AddWithValue("@Price", product.Price);
             command.Parameters.AddWithValue("@Description", product.Description ?? (object)DBNull.Value);
             command.Parameters.AddWithValue("@CategoryID", product.CategoryID);
+            command.Parameters.AddWithValue("@ImagePath", product.ImagePath ?? (object)DBNull.Value);
 
             command.ExecuteNonQuery();
         }
@@ -125,7 +128,7 @@ public class ProductRepository : IProductRepository
             using SqlConnection connection = new SqlConnection(_connectionString);
             connection.Open();
 
-            string query = "UPDATE Product SET Name = @Name, Price = @Price, Description = @Description, CategoryID = @CategoryID WHERE ProductID = @ProductID";
+            string query = "UPDATE Product SET Name = @Name, Price = @Price, Description = @Description, CategoryID = @CategoryID, ImagePath = @ImagePath WHERE ProductID = @ProductID";
 
             using SqlCommand command = new SqlCommand(query, connection);
             command.Parameters.AddWithValue("@ProductID", product.ProductID);
@@ -133,6 +136,7 @@ public class ProductRepository : IProductRepository
             command.Parameters.AddWithValue("@Price", product.Price);
             command.Parameters.AddWithValue("@Description", product.Description ?? (object)DBNull.Value);
             command.Parameters.AddWithValue("@CategoryID", product.CategoryID);
+            command.Parameters.AddWithValue("@ImagePath", product.ImagePath ?? (object)DBNull.Value);
 
             command.ExecuteNonQuery();
         }
