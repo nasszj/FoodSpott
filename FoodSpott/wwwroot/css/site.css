@@ -162,3 +162,16 @@ body {
         margin-top: 15px;
         font-size: 18px;
     }
+
+.normal-navbar {
+    background-color: white !important;
+    border-bottom: 1px solid #DEE2E6 !important;
+    position: relative;
+    z-index: 1000;
+}
+
+    .normal-navbar .nav-link,
+    .normal-navbar .navbar-brand {
+        color: #343A40 !important;
+        font-weight: 600;
+    }
