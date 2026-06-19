@@ -50,6 +50,11 @@ namespace FoodSpott.Controllers
 
         public IActionResult AddProduct(int productID)
         {
+            if (HttpContext.Session.GetString("UserID") == null)
+            {
+                TempData["ErrorMessage"] = "Please login or register before adding products to your cart.";
+                return RedirectToAction("Login", "Account");
+            }
             try
             {
                 _cartService.AddProduct(productID);
