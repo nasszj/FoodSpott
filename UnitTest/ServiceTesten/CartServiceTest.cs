@@ -62,5 +62,46 @@ namespace UnitTest.ServiceTesten
             //Assert
             Assert.IsTrue(result);
         }
+
+        [TestMethod]
+        public void UpdateQuantity_DoesNotUpdate_WhenQuantityIsLowerThanOne()
+        {
+            // Arrange
+            var service = new CartService(new FakeCartRepository());
+
+            // Act
+            service.UpdateQuantity(1, 0);
+            var result = service.GetCart();
+
+            // Assert
+            Assert.AreEqual(1, result.Products[0].Quantity);
+        }
+
+        [TestMethod]
+        public void DeleteProduct_ReturnsFalse_WhenProductDoesNotExist()
+        {
+            // Arrange
+            var service = new CartService(new FakeCartRepository());
+
+            // Act
+            bool result = service.DeleteProduct(99);
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void GetCart_ReturnsEmptyCart_WhenCartHasNoProducts()
+        {
+            // Arrange
+            var service = new CartService(new FakeCartRepository(true));
+
+            // Act
+            var result = service.GetCart();
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(0, result.Products.Count);
+        }
     }
 }

@@ -15,9 +15,10 @@ namespace UnitTest.ModelTesten
             var price = 6.00m;
             var description = "Beef burger with cheese";
             var categoryID = 2;
+            var imagePath = "/images/products/cheeseburger.jpg";
 
             //Act
-            var product = new Product(productID, name, price, description, categoryID);
+            var product = new Product(productID, name, price, description, categoryID, imagePath);
 
             //Assert
             Assert.AreEqual(productID, product.ProductID);
@@ -25,6 +26,7 @@ namespace UnitTest.ModelTesten
             Assert.AreEqual(price, product.Price);
             Assert.AreEqual(description, product.Description);
             Assert.AreEqual(categoryID, product.CategoryID);
+            Assert.AreEqual(imagePath, product.ImagePath);
         }
     }
 }

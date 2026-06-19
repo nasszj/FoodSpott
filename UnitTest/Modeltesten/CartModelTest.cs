@@ -34,6 +34,7 @@ namespace UnitTest.ModelTesten
             Assert.AreEqual(userID, cart.UserID);
             Assert.AreEqual(totalPrice, cart.TotalPrice);
             Assert.AreEqual(1, cart.Products.Count);
+            Assert.AreEqual("Cheeseburger", cart.Products[0].ProductName);
         }
     }
 }

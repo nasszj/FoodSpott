@@ -9,7 +9,7 @@ namespace UnitTest.Modeltesten
     public class CategoryModelTest
     {
         [TestMethod]
-        public void Category_Constructot_SetsPropertiesCorrectly()
+        public void Category_Constructor_SetsPropertiesCorrectly()
         {
             //Arrange
             var categoryID = 1;

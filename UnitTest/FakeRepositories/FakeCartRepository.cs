@@ -7,11 +7,23 @@ namespace UnitTest.FakeRepositories
 {
     public class FakeCartRepository : ICartRepository
     {
-        private List<CartProductDTO> products = new List<CartProductDTO>
+        private List<CartProductDTO> products;
+
+        public FakeCartRepository(bool emptyCart = false)
+        {
+            if (emptyCart)
+            {
+                products = new List<CartProductDTO>();
+            }
+            else
+            {
+                products = new List<CartProductDTO>
         {
             new CartProductDTO { CartProductID = 1, CartID = 1, ProductID = 1, ProductName = "Cheeseburger", Price = 6.00m, Quantity = 1, Subtotal = 6.00m },
             new CartProductDTO { CartProductID = 2, CartID = 1, ProductID = 2, ProductName = "Fries", Price = 3.95m, Quantity = 1, Subtotal = 3.95m }
         };
+            }
+        }
 
         public CartDTO GetCart()
         {
